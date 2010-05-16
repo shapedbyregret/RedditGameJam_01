@@ -8,6 +8,9 @@
 	
 	public class Main extends Sprite 
 	{
+		// Embed font
+		[Embed(source="Distant-Galaxy/DISTGRG_.ttf", fontFamily="Distant")]
+		private var Distant:String;
 		
 		public static var g:Globals;
 		public static var _stage:Stage;
@@ -40,19 +43,27 @@
 		private function update(e:Event):void
 		{
 			if (!g.paused) {
-				trace(g.timer.currentCount);
+				
+				// Spawn more enemies
 				if (g.timer.currentCount % g.spawnDelay == 0) {
 					new Enemy0();
 				}
+				if (g.timer.currentCount % 100 == 0) {
+					g.spawnDelay -= 1;
+				}
 				
+				// Update Players
 				for (var i:int = 0; i <= g.numPlayer;i++) {
 					g.ghosts[i].update();
 				}
+				
+				// Collision
 				collisions();
 				
-				if (g.p1.life <= 0) {
+				// Spawn new player
+				if (g.p1.life == 1) {
 					g.numPlayer += 1;
-					if (g.numPlayer > g.maxNumPlayers) {
+					if (g.numPlayer >= g.maxNumPlayers) {
 						// Game Over
 					}
 					else {
@@ -78,9 +89,12 @@
 			// Player to enemy collisions
 			aNode = g.enemies.head();
 			while (aNode != null) {
-				if (aNode.val.hitTestObject(g.p1.hitBox)) {
-					g.p1.life -= 1;
-					aNode.val.life -= 10;
+				for (var i:int = 0; i <= g.numPlayer; i++) {
+					if (aNode.val.hitTestObject(g.ghosts[i].hitBox)) {
+						g.ghosts[i].life -= 1;
+						aNode.val.life -= 10;
+						break;
+					}
 				}
 				aNode = aNode.next;
 			}

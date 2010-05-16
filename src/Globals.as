@@ -32,9 +32,11 @@
 		public var bulletLayer:Sprite;
 		public var hudLayer:Sprite;
 		
+		public var titleScreen:Title;
+		
 		public function Globals() 
 		{
-			paused = false;
+			paused = true;
 			w = 640;
 			h = 480;
 			numPlayer = 0;
@@ -62,6 +64,9 @@
 			playerLayer.addChild(p1);
 			bulletLayer = new Sprite();
 			hudLayer = new Sprite();
+			
+			titleScreen = new Title();
+			hudLayer.addChild(titleScreen);
 		}
 		
 	}

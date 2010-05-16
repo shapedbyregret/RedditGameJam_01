@@ -1,6 +1,5 @@
 ﻿package  
 {
-	import adobe.utils.CustomActions;
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filters.*;
@@ -32,7 +31,7 @@
 			pastPositions = new Array();
 			pastAngle = new Array();
 			ghostMode = false;
-			life = maxLife = 1;
+			life = maxLife = 2;
 			hitBox = new Sprite();
 			
 			xVel = 4;
@@ -60,15 +59,35 @@
 		public function update():void
 		{
 			if (ghostMode) {
-				if(pastPositions.length>0) {
-					var pastPoint:Point = pastPositions.shift();
-					x = pastPoint.x;
-					y = pastPoint.y;
+				if (life==1) {
+					if(pastPositions.length>0) {
+						var pastPoint:Point = pastPositions.shift();
+						x = pastPoint.x;
+						y = pastPoint.y;
+					}
+					else {
+						life = 0;
+					}
+					if(pastAngle.length>0) {
+						rotation = pastAngle.shift();
+					}
+					
+					// Shoot
+					if (shootCount > shootDelay) {
+						new Bullet(x, y, -rotation/57.2957795 + 1.57079633, 8);
+						shootCount = 0;
+					}
+					else {
+						shootCount += 1;
+					}
 				}
-				if(pastAngle.length>0) {
-					rotation = pastAngle.shift();
+				else if (life == 0) {
+					for (var i:int = 0; i < 4; i++) { new Particle(x, y); }
+					life = -1;
 				}
-				trace(pastPositions.length);
+				else {
+					visible = false;
+				}
 			}
 			else {
 				
@@ -102,6 +121,8 @@
 					shootCount += 1;
 				}
 			}
+			
+			
 		}
 		
 		private function draw():void

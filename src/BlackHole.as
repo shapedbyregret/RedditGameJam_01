@@ -45,7 +45,6 @@
 		
 		public function destroy():void {
 			Main.g.playerLayer.removeChild(this);
-			for (var i:int = 0; i < 20; i++) { new Particle(x, y); }
 		}
 	}
 

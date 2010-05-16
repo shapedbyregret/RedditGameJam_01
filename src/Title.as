@@ -9,6 +9,8 @@
 	{
 		
 		private var styles:StyleSheet;
+		private var tfHiScore:TextField;
+		private var tfScore:TextField;
 		
 		public function Title() 
 		{
@@ -25,11 +27,11 @@
 			tfTitle.htmlText = "<font face='Distant'><h1>Collapse</h1></font>";
 			addChild(tfTitle);
 			
-			var tfHiScore:TextField = tfHelper(320, 80);
+			tfHiScore = tfHelper(320, 120);
 			tfHiScore.htmlText = "<font face='Distant'><h2>Hi Score:0</h2></font>";
 			addChild(tfHiScore);
 			
-			var tfScore:TextField = tfHelper(320, 120);
+			tfScore = tfHelper(320, 160);
 			tfScore.htmlText = "<font face='Distant'><h2>Score:0</h2></font>";
 			addChild(tfScore);
 			
@@ -48,25 +50,15 @@
 		{
 			visible = !visible;
 			if (Main.g.curScore > Main.g.hiScore) {
-				
+				Main.g.hiScore = Main.g.curScore;
+				tfHiScore.htmlText = "<font face='Distant'><h2>Hi Score:" + Main.g.hiScore + "</h2></font>";
 			}
+			tfScore.htmlText = "<font face='Distant'><h2>Score:" + Main.g.curScore + "</h2></font>";
 		}
 		
 		private function play(me:MouseEvent):void
 		{
-			// Reset Variables
-			Main.g.curScore = 0;
-			Main.g.numPlayer = 0;
-			Main.g.spawnDelay = 30;
-			Main.g.bh = new BlackHole();
-			Main.g.bh.x = Main.g.w >> 1;
-			Main.g.bh.y = Main.g.h >> 1;
-			Main.g.playerLayer.addChild(Main.g.bh);
-			Main.g.ghosts = [new Protagonist(), new Protagonist(), new Protagonist()];
-			Main.g.p1 = Main.g.ghosts[0];
-			Main.g.p1.x = 300;
-			Main.g.p1.y = 200;
-			Main.g.playerLayer.addChild(Main.g.p1);
+			Main.g.resetVariables();
 			
 			Main.g.paused = false;
 			Main.g.timer.reset();

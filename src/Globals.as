@@ -1,5 +1,6 @@
 ﻿package  
 {
+	import adobe.utils.ProductManager;
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
@@ -50,24 +51,12 @@
 			spawnDelay = 30;
 			curScore = hiScore = 0;
 			
-			/*bh = new BlackHole();
-			bh.x = w >> 1;
-			bh.y = h >> 1;
-			
-			
-			ghosts = [new Protagonist(), new Protagonist(), new Protagonist()];
-			p1 = ghosts[0];
-			p1.x = 300;
-			p1.y = 200;*/
-			
 			p1Bullets = new DLL();
 			enemies = new DLL();
 			particles = new DLL();
 			
 			enemyLayer = new Sprite();
 			playerLayer = new Sprite();
-			//playerLayer.addChild(bh);
-			//playerLayer.addChild(p1);
 			bulletLayer = new Sprite();
 			hudLayer = new Sprite();
 			
@@ -78,6 +67,28 @@
 			hudLayer.addChild(tfHiScore);
 			titleScreen = new Title();
 			hudLayer.addChild(titleScreen);
+		}
+		
+		public function resetVariables():void
+		{	
+			var aNode:DLLNode = particles.head();
+			while (aNode != null) {
+				aNode.val.destroy();
+				aNode = particles.head();
+			}
+			curScore = 0;
+			updateScore(0);
+			numPlayer = 0;
+			spawnDelay = 30;
+			bh = new BlackHole();
+			bh.x = w >> 1;
+			bh.y = h >> 1;
+			playerLayer.addChild(bh);
+			ghosts = [new Protagonist(), new Protagonist(), new Protagonist()];
+			p1 = ghosts[0];
+			p1.x = 300;
+			p1.y = 200;
+			playerLayer.addChild(p1);
 		}
 		
 		public function updateScore(amount:Number):void {

@@ -65,12 +65,18 @@
 				// Spawn new player
 				if (g.p1.life == 1) {
 					g.numPlayer += 1;
-					if (g.numPlayer >= g.maxNumPlayers) {
-						// Game Over
+					if (g.numPlayer >= g.maxNumPlayers) { // Game Over
+						destroyAll();
 						g.paused = true;
 						g.titleScreen.toggleVisibility();
 					}
 					else {
+						for (var j:int = 0; j < g.numPlayer; j++) {
+							g.ghosts[j].life = 1;
+							g.ghosts[j].visible = true;
+							g.ghosts[j].x = 300;
+							g.ghosts[j].y = 200;
+						}
 						// Old player
 						g.p1.destroy();
 						g.p1.x = 300;
@@ -111,6 +117,8 @@
 					if (aNode.val.hitTestObject(bNode.val)) {
 						aNode.val.life -= 2;
 						bNode.val.life -= 2;
+						for (var j:int = 0; j < 10; j++) { new Particle(aNode.val.x, aNode.val.y, aNode.val.col); }
+						g.updateScore(10);
 						break;
 					}
 					bNode = bNode.next;
@@ -136,6 +144,36 @@
 				if (aNode.val.hitTestObject(g.bh.hitBox)) {
 					aNode.val.life -= 1;
 				}
+				aNode = aNode.next;
+			}
+		}
+		
+		private function destroyAll():void
+		{
+			// Remove players
+			for (var i:int = 0; i < g.maxNumPlayers; i++) {
+				g.playerLayer.removeChild(g.ghosts[i]);
+			}
+			// Remove black hole
+			g.playerLayer.removeChild(g.bh);
+			
+			var aNode:DLLNode;
+			// Remove enemies
+			aNode = g.enemies.head();
+			while (aNode != null) {
+				aNode.val.life = 0;
+				aNode = aNode.next;
+			}
+			// Remove particles
+			aNode = g.particles.head();
+			while (aNode != null) {
+				aNode.val.life = 0;
+				aNode = aNode.next;
+			}
+			// Remove bullets
+			aNode = g.p1Bullets.head();
+			while (aNode != null) {
+				aNode.val.life = 0;
 				aNode = aNode.next;
 			}
 		}

@@ -82,7 +82,7 @@
 					}
 				}
 				else if (life == 0) {
-					for (var i:int = 0; i < 4; i++) { new Particle(x, y); }
+					for (var i:int = 0; i < 4; i++) { new Particle(x, y,0xFFFFFF); }
 					life = -1;
 				}
 				else {
@@ -90,6 +90,11 @@
 				}
 			}
 			else {
+				var bhAngRad:Number = Math.atan2(240 - y, 320 - x);
+				var	bhXVel:Number = Math.cos(bhAngRad + 1.2) * Main.g.bh.size / 20;
+				var bhYVel:Number = Math.sin(bhAngRad + 1.2) * Main.g.bh.size / 20;
+				x += bhXVel;
+				y += bhYVel;
 				
 				angRad = Math.atan2(Main._stage.mouseY - y, Main._stage.mouseX - x);
 				angDeg = rotation = angRad * 57.2957795;
@@ -122,6 +127,10 @@
 				}
 			}
 			
+			/*if (x > 315 && x < 325 && y > 235 && y < 245) {
+				life -= 1;
+			}*/
+			
 			
 		}
 		
@@ -136,12 +145,13 @@
 			
 			// Hitbox
 			hitBox.graphics.clear();
-			hitBox.graphics.drawRect( -3, 3, 6, 6);
+			hitBox.graphics.drawRect( -4, 4, 8, 8);
 			addChild(hitBox);
 		}
 		
 		public function destroy():void
 		{
+			alpha = 0.5;
 			ghostMode = true;
 			removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			removeEventListener(KeyboardEvent.KEY_UP, keyUp);

@@ -62,7 +62,7 @@
 			removeEventListener(Event.ENTER_FRAME, update);
 			Main.g.bulletLayer.removeChild(this);
 			Main.g.p1Bullets.nodeOf(this).remove();
-			for (var i:int = 0; i < 1; i++) { new Particle(x, y); }
+			for (var i:int = 0; i < 1; i++) { new Particle(x, y, 0xFFFF00); }
 		}
 	}
 

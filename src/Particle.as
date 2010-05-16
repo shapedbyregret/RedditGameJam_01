@@ -7,48 +7,46 @@
 	
 	import de.polygonal.ds.*;
 	
-	public class Bullet extends Sprite
+	public class Particle extends Sprite
 	{
 		public var life:Number;
 		
+		private var degrade:Number;
 		private var xVel:Number;
 		private var yVel:Number;
-		private var angRad:Number;
-		private var angDeg:Number;
 		
-		public function Bullet(newX:Number, newY:Number, newAng:Number, newAcc:Number) 
+		public function Particle(newX:Number, newY:Number) 
 		{
-			life = 1;
-			xVel = newAcc * Math.sin(newAng);
-			yVel = newAcc * Math.cos(newAng);
-			angRad = 0;
-			angDeg = 0;
+			life = 10 + Math.random() * 5;;
+			degrade = 1 / life;
+			xVel = ( -1 + Math.random() * 2) * 2;
+			yVel = ( -1 + Math.random() * 2) * 2;
 			draw();
 			x = newX;
 			y = newY;
-			
-			Main.g.p1Bullets.append(this);
 			
 			addEventListener(Event.ENTER_FRAME, update);
 		}
 		
 		public function update(e:Event):void
 		{
-			if(!Main.g.paused) {
-				if (life > 0) {
-					x += xVel;
-					y += yVel;
-				}
-				else {
-					destroy();
-				}
+			if (life > 0) {
+				x += xVel;
+				y += yVel;
+				life -= 1;
+				alpha -= degrade;
+			}
+			else {
+				destroy();
 			}
 		}
 		
 		private function draw():void
 		{
 			graphics.lineStyle(1, 0xFFFFFF, 0.8);
-			graphics.drawRect( -2, -2, 4, 4);
+			graphics.beginFill(0x333333, 0.8);
+			graphics.drawRect( -1.5, -1.5, 3, 3);
+			graphics.endFill();
 			filters = [new GlowFilter(0xFFFF00, 0.8)];
 			Main.g.bulletLayer.addChild(this);
 		}
@@ -57,8 +55,6 @@
 		{
 			removeEventListener(Event.ENTER_FRAME, update);
 			Main.g.bulletLayer.removeChild(this);
-			Main.g.p1Bullets.nodeOf(this).remove();
-			for (var i:int = 0; i < 1; i++) { new Particle(x, y); }
 		}
 	}
 

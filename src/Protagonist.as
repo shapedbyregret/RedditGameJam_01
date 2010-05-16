@@ -10,9 +10,9 @@
 	{
 		private var pastPositions:Array;
 		private var pastAngle:Array;
-		private var ghostMode:Boolean;
-		private var life:Number;
-		private var maxLife:Number;
+		public var ghostMode:Boolean;
+		public var life:Number;
+		public var maxLife:Number;
 		
 		private var xVel:Number;
 		private var yVel:Number;
@@ -29,7 +29,7 @@
 			pastPositions = new Array();
 			pastAngle = new Array();
 			ghostMode = false;
-			life = maxLife = 10;
+			life = maxLife = 1;
 			
 			xVel = 4;
 			yVel = 4;
@@ -62,6 +62,7 @@
 				if(pastAngle.length>0) {
 					rotation = pastAngle.shift();
 				}
+				trace(x);
 			}
 			else {
 				// Move player
@@ -84,7 +85,9 @@
 				
 				// Shoot
 				if (shoot && shootCount > shootDelay) {
-					// Shoot weapon
+					var bulAng:Number = -Math.atan2(Main._stage.mouseY - y, Main._stage.mouseX - x) + 1.57079633;
+					new Bullet(x, y, bulAng, 6);
+					shootCount = 0;
 				}
 				else {
 					shootCount += 1;
@@ -97,6 +100,14 @@
 			graphics.lineStyle(2, 0xFFFFFF, 0.8);
 			graphics.drawRect( -5, -5, 10, 10);
 			filters = [new GlowFilter(0xFFFFFF, 0.8)];
+		}
+		
+		public function destroy():void
+		{
+			removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			removeEventListener(KeyboardEvent.KEY_UP, keyUp);
+			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
 		}
 		
 		private function keyDown(ke:KeyboardEvent):void

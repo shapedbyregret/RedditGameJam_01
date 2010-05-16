@@ -3,6 +3,7 @@
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.utils.Timer;
 	
 	import de.polygonal.ds.*;
 	
@@ -12,9 +13,10 @@
 		public var paused:Boolean;
 		public var w:Number;
 		public var h:Number;
-		public var numPlayers:Number;
+		public var numPlayer:Number;
 		public var maxNumPlayers:Number;
-		
+		public var timer:Timer;
+		public var spawnDelay:Number;
 		
 		public var p1:Protagonist;
 		public var bh:BlackHole;
@@ -35,8 +37,11 @@
 			paused = false;
 			w = 640;
 			h = 480;
-			numPlayers = 0;
+			numPlayer = 0;
 			maxNumPlayers = 3;
+			timer = new Timer(50);
+			timer.start();
+			spawnDelay = 30;
 			
 			bh = new BlackHole();
 			bh.x = w >> 1;
@@ -45,6 +50,9 @@
 			
 			ghosts = [new Protagonist(), new Protagonist(), new Protagonist()];
 			p1 = ghosts[0];
+			p1.x = 300;
+			p1.y = 200;
+			
 			p1Bullets = new DLL();
 			enemies = new DLL();
 			

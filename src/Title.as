@@ -18,32 +18,59 @@
 			
 			styles = new StyleSheet();
 			styles.parseCSS("h1{color:#FFFFFF;font-size:48px;}" +
-							"h2{color:#FFFFFF;font-size:24px;}" +
-							"h3{color:#CC3333;font-size:24px;}");
+							"h2{color:#FFFFFF;font-size:36px;}" +
+							"h3{color:#CC3333;font-size:36px;}");
 			
 			var tfTitle:TextField = tfHelper(320, 30);
 			tfTitle.htmlText = "<font face='Distant'><h1>Collapse</h1></font>";
 			addChild(tfTitle);
 			
-			var tfScore:TextField = tfHelper(320, 60);
-			tfScore.htmlText = "<font face='Distant'><h2>Hiscore:0</h2></font>";
+			var tfHiScore:TextField = tfHelper(320, 80);
+			tfHiScore.htmlText = "<font face='Distant'><h2>Hi Score:0</h2></font>";
+			addChild(tfHiScore);
+			
+			var tfScore:TextField = tfHelper(320, 120);
+			tfScore.htmlText = "<font face='Distant'><h2>Score:0</h2></font>";
 			addChild(tfScore);
 			
-			var tfPlay:TextField = tfHelper(-50, -50);
+			var tfPlay:TextField = tfHelper(0,0);
 			tfPlay.htmlText = "<font face='Distant'><h2>Play</h2></font>";
-			addChild(tfPlay);
-			var tfPlayHover:TextField = tfHelper(-50, -50);
+			var tfPlayHover:TextField = tfHelper(0,0);
 			tfPlayHover.htmlText = "<font face='Distant'><h3>Play</h3></font>";
-			addChild(tfPlayHover);
 			var butPlay:SimpleButton = new SimpleButton(tfPlay, tfPlayHover, tfPlayHover, tfPlayHover);
 			butPlay.x = 320;
-			butPlay.y = 200;
+			butPlay.y = 300;
 			butPlay.addEventListener(MouseEvent.CLICK, play);
 			addChild(butPlay);
 		}
 		
-		private function play(me:MouseEvent):void {
+		public function toggleVisibility():void
+		{
+			visible = !visible;
+			if (Main.g.curScore > Main.g.hiScore) {
+				
+			}
+		}
+		
+		private function play(me:MouseEvent):void
+		{
+			// Reset Variables
+			Main.g.curScore = 0;
+			Main.g.numPlayer = 0;
+			Main.g.spawnDelay = 30;
+			Main.g.bh = new BlackHole();
+			Main.g.bh.x = Main.g.w >> 1;
+			Main.g.bh.y = Main.g.h >> 1;
+			Main.g.playerLayer.addChild(Main.g.bh);
+			Main.g.ghosts = [new Protagonist(), new Protagonist(), new Protagonist()];
+			Main.g.p1 = Main.g.ghosts[0];
+			Main.g.p1.x = 300;
+			Main.g.p1.y = 200;
+			Main.g.playerLayer.addChild(Main.g.p1);
+			
 			Main.g.paused = false;
+			Main.g.timer.reset();
+			Main.g.timer.start();
 			Main._stage.focus = this;
 			visible = false;
 		}

@@ -38,6 +38,8 @@
 			addChild(mainLayer);
 			
 			addEventListener(Event.ENTER_FRAME, update);
+			addEventListener(Event.DEACTIVATE, deactivate);
+			addEventListener(Event.ACTIVATE, activate);
 		}
 		
 		private function update(e:Event):void
@@ -65,6 +67,8 @@
 					g.numPlayer += 1;
 					if (g.numPlayer >= g.maxNumPlayers) {
 						// Game Over
+						g.paused = true;
+						g.titleScreen.toggleVisibility();
 					}
 					else {
 						// Old player
@@ -124,6 +128,29 @@
 					aNode.val.life -= 10;
 				}
 				aNode = aNode.next;
+			}
+			
+			// Particle to black hole collision
+			aNode = g.particles.head();
+			while (aNode != null) {
+				if (aNode.val.hitTestObject(g.bh.hitBox)) {
+					aNode.val.life -= 1;
+				}
+				aNode = aNode.next;
+			}
+		}
+		
+		private function deactivate(e:Event):void
+		{
+			if(!Main.g.titleScreen.visible) {
+				Main.g.paused = true;
+			}
+		}
+		
+		private function activate(e:Event):void
+		{
+			if(!Main.g.titleScreen.visible) {
+				Main.g.paused = false;
 			}
 		}
 		

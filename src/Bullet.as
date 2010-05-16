@@ -38,6 +38,10 @@
 				if (life > 0) {
 					x += xVel;
 					y += yVel;
+					
+					if (x < -5 || x > 645 || y < -5 || y > 485) {
+						life = 0;
+					}
 				}
 				else {
 					destroy();

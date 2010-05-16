@@ -185,6 +185,7 @@
 		{
 			shoot = true;
 		}
+		
 		private function mouseUp(me:MouseEvent = null):void
 		{
 			shoot = false;

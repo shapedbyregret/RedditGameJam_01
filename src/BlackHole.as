@@ -39,7 +39,7 @@
 			
 			// Hitbox
 			hitBox.graphics.clear();
-			hitBox.graphics.drawCircle(0, 0, size-3);
+			hitBox.graphics.drawCircle(0, 0, size-(size/5));
 			addChild(hitBox);
 		}
 		

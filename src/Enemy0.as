@@ -22,8 +22,8 @@
 			life = 2;
 			
 			acc = 2 + Math.random() * 2;
-			xVel = 2;
-			yVel = 2;
+			xVel = 1 + (Main.g.bh.size / 5);
+			yVel = 1 + (Main.g.bh.size / 5);
 			angRad = 0;
 			angDeg = 0;
 			draw();
@@ -36,23 +36,11 @@
 		public function update(e:Event):void
 		{
 			if (life > 0) {
-				/*if (x < 320) {
-					x += xVel;
-				}
-				else if (x > 320) {
-					x -= xVel;
-				}
-				if (y < 240) {
-					y += yVel;
-				}
-				else if (y > 240) {
-					y -= yVel;
-				}*/
 				angRad = Math.atan2(240 - y, 320 - x);
 				angDeg = angRad * 57.2957795;
 				rotation = angDeg;
-				xVel = acc * Math.cos(angRad+0.1);
-				yVel = acc * Math.sin(angRad + 0.1);
+				xVel = acc * Math.cos(angRad+1.2);
+				yVel = acc * Math.sin(angRad+1.2);
 				x += xVel;
 				y += yVel;
 			}
@@ -90,10 +78,11 @@
 		
 		private function destroy():void
 		{
+			for (var i:int = 0; i < 10; i++) { new Particle(x, y); }
+			Main.g.updateScore(10);
 			removeEventListener(Event.ENTER_FRAME, update);
 			Main.g.enemyLayer.removeChild(this);
-			Main.g.enemies.nodeOf(this).remove();
-			for (var i:int = 0; i < 10; i++) { new Particle(x, y); }
+			Main.g.enemies.nodeOf(this).remove();	
 		}
 	}
 

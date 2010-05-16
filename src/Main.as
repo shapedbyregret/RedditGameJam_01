@@ -40,27 +40,29 @@
 		private function update(e:Event):void
 		{
 			if (!g.paused) {
-				
+				trace(g.timer.currentCount);
 				if (g.timer.currentCount % g.spawnDelay == 0) {
 					new Enemy0();
 				}
 				
-				g.p1.update();
+				for (var i:int = 0; i <= g.numPlayer;i++) {
+					g.ghosts[i].update();
+				}
 				collisions();
 				
 				if (g.p1.life <= 0) {
 					g.numPlayer += 1;
-					if (g.numPlayer < g.maxNumPlayers) {
+					if (g.numPlayer > g.maxNumPlayers) {
 						// Game Over
 					}
 					else {
 						// Old player
 						g.p1.destroy();
-						g.p1.ghostMode = true;
 						g.p1.x = 300;
 						g.p1.y = 200;
 						// New player
-						g.p1 = new Protagonist();
+						g.p1 = g.ghosts[g.numPlayer];
+						g.playerLayer.addChild(g.p1);
 						g.p1.x = 300;
 						g.p1.y = 200;
 					}
@@ -76,7 +78,7 @@
 			// Player to enemy collisions
 			aNode = g.enemies.head();
 			while (aNode != null) {
-				if (aNode.val.hitTestObject(g.p1)) {
+				if (aNode.val.hitTestObject(g.p1.hitBox)) {
 					g.p1.life -= 1;
 					aNode.val.life -= 10;
 				}
@@ -101,8 +103,10 @@
 			// Enemy to black hole collision
 			aNode = g.enemies.head();
 			while (aNode != null) {
-				if (aNode.val.hitTestObject(g.bh)) {
+				if (aNode.val.hitTestObject(g.bh.hitBox)) {
 					g.bh.life -= 1;
+					g.bh.size += 0.5;
+					g.bh.draw();
 					aNode.val.life -= 10;
 				}
 				aNode = aNode.next;

@@ -93,7 +93,7 @@
 			removeEventListener(Event.ENTER_FRAME, update);
 			Main.g.enemyLayer.removeChild(this);
 			Main.g.enemies.nodeOf(this).remove();
-			for (var i:int = 0; i < 4; i++) { new Particle(x, y); }
+			for (var i:int = 0; i < 10; i++) { new Particle(x, y); }
 		}
 	}
 

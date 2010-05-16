@@ -13,6 +13,7 @@
 		public var ghostMode:Boolean;
 		public var life:Number;
 		public var maxLife:Number;
+		public var hitBox:Sprite;
 		
 		private var xVel:Number;
 		private var yVel:Number;
@@ -23,6 +24,8 @@
 		private var shoot:Boolean;
 		private var shootCount:Number;
 		private var shootDelay:Number;
+		private var angRad:Number;
+		private var angDeg:Number;
 		
 		public function Protagonist() 
 		{
@@ -30,6 +33,7 @@
 			pastAngle = new Array();
 			ghostMode = false;
 			life = maxLife = 1;
+			hitBox = new Sprite();
 			
 			xVel = 4;
 			yVel = 4;
@@ -39,7 +43,9 @@
 			moveDown = false;
 			shoot = false;
 			shootCount = 0;
-			shootDelay = 10;
+			shootDelay = 5;
+			angRad = 0;
+			angDeg = 0;
 			
 			draw();
 			
@@ -62,9 +68,14 @@
 				if(pastAngle.length>0) {
 					rotation = pastAngle.shift();
 				}
-				trace(x);
+				trace(pastPositions.length);
 			}
 			else {
+				
+				angRad = Math.atan2(Main._stage.mouseY - y, Main._stage.mouseX - x);
+				angDeg = rotation = angRad * 57.2957795;
+				pastAngle.push(rotation);
+				
 				// Move player
 				if (moveLeft) {
 					x -= xVel;
@@ -81,12 +92,10 @@
 				
 				// Record position
 				pastPositions.push(new Point(x, y));
-				pastAngle.push(rotation);
 				
 				// Shoot
-				if (shoot && shootCount > shootDelay) {
-					var bulAng:Number = -Math.atan2(Main._stage.mouseY - y, Main._stage.mouseX - x) + 1.57079633;
-					new Bullet(x, y, bulAng, 6);
+				if (shootCount > shootDelay) {
+					new Bullet(x, y, -angRad + 1.57079633, 8);
 					shootCount = 0;
 				}
 				else {
@@ -97,13 +106,22 @@
 		
 		private function draw():void
 		{
+			graphics.beginFill(0xCC3333, 0.8);
+			graphics.drawRect(2, -5, 3, 10);
+			graphics.endFill();
 			graphics.lineStyle(2, 0xFFFFFF, 0.8);
 			graphics.drawRect( -5, -5, 10, 10);
 			filters = [new GlowFilter(0xFFFFFF, 0.8)];
+			
+			// Hitbox
+			hitBox.graphics.clear();
+			hitBox.graphics.drawRect( -3, 3, 6, 6);
+			addChild(hitBox);
 		}
 		
 		public function destroy():void
 		{
+			ghostMode = true;
 			removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			removeEventListener(KeyboardEvent.KEY_UP, keyUp);
 			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);

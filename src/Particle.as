@@ -55,7 +55,7 @@
 					}
 					else { // Explosion trajectory
 						count++;
-						rotation += 30;
+						rotation += 3;
 					}
 					
 					// Move

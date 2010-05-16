@@ -82,7 +82,7 @@
 					}
 				}
 				else if (life == 0) {
-					for (var i:int = 0; i < 4; i++) { new Particle(x, y,0xFFFFFF); }
+					//for (var i:int = 0; i < 4; i++) { new Particle(x, y,0xFFFFFF); }
 					life = -1;
 				}
 				else {
@@ -144,8 +144,8 @@
 			filters = [new GlowFilter(0xFFFFFF, 0.8)];
 			
 			// Hitbox
-			hitBox.graphics.clear();
-			hitBox.graphics.drawRect( -4, 4, 8, 8);
+			//hitBox.graphics.clear();
+			hitBox.graphics.drawRect(-4, 4, 8, 8);
 			addChild(hitBox);
 		}
 		

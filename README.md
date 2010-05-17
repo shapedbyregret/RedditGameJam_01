@@ -36,15 +36,15 @@ Polygonal Labs as3 data structure library [Link](http://code.google.com/p/polygo
 
 **Inspiration**
 
-[Choke On My Groundhog, You Bastard Robots]()
+[Choke On My Groundhog, You Bastard Robots](http://www.pixelprospector.com/indev/2010/03/choke-on-my-groundhog-you-bastard-robots/)
 
-[Cursor 10]()
+[Cursor*10](http://www.nekogames.jp/mt/2008/01/cursor10.html)
 
-[Geometry Wars]()
+[Geometry Wars (Video)](http://www.youtube.com/watch?v=qNKtKm3SXvs)
 
 
 **Developed With**
 
-[Flash Develop]()
+[Flash Develop](http://www.flashdevelop.org/wikidocs/index.php?title=Main_Page)
 
-[Flex 3 SDK]()
+[Flex 3 SDK](http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+3)
